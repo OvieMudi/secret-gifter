@@ -44,9 +44,9 @@ const Navbar = () => {
         </Link>
       </div>
       <div className={classes.navActions}>
-        <Button color="secondary" variant="contained">
+        {/* <Button color="secondary" variant="contained">
           Create Group
-        </Button>
+        </Button> */}
         <IconButton>
           <PersonOutlineIcon fontSize="large" />
         </IconButton>

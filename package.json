@@ -18,7 +18,7 @@
   },
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "webpack --mode production",
+    "build": "webpack --mode production  && echo '/* /index.html 200' > dist/_redirects",
     "dev": "webpack-dev-server --mode development",
     "lint": "eslint src",
     "start": "node server/server.js",
