@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import Button from '@common/Button';
 import { useAuth } from '../../../context/authContext';
 
@@ -48,8 +50,8 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     fontSize: '2rem',
   },
-  hide: {
-    display: 'none',
+  align: {
+    textAlign: 'center',
   },
 }));
 
@@ -66,6 +68,7 @@ const FlowStepper = () => {
     checkExistingEmail,
     handleLogin,
     handleRegister,
+    isLoading,
   } = useAuth();
 
   const classes = useStyles();
@@ -120,6 +123,7 @@ const FlowStepper = () => {
         value={userData.password}
         type="password"
         placeholder="*********"
+        disabled={isLoading}
         onChange={handleChange}
         fullWidth
       />
@@ -155,6 +159,7 @@ const FlowStepper = () => {
         value={userData.title}
         variant="outlined"
         placeholder="A-Team Secret Santa"
+        disabled={isLoading}
         onChange={handleChange}
         fullWidth
       />
@@ -178,6 +183,9 @@ const FlowStepper = () => {
         <div className={classes.inputsContainer}>
           {emailInput}
           {emailExists.status ? passwordInput : groupNameInput}
+          <div className={classes.align} hidden={!isLoading}>
+            <CircularProgress />
+          </div>
         </div>
       ),
       buttonText: 'Continue',
@@ -187,6 +195,9 @@ const FlowStepper = () => {
         <div className={classes.inputsContainer}>
           {userNameInput}
           {passwordInput}
+          <div className={classes.align} hidden={!isLoading}>
+            <CircularProgress />
+          </div>
         </div>
       ),
       buttonText: 'Done!',
@@ -207,12 +218,18 @@ const FlowStepper = () => {
     return setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  // const handleBack = () => {
-  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  // };
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
 
   return (
     <div className={classes.root}>
+      <span hidden={activeStep < 2}>
+        <Button size="small" onClick={handleBack} color="primary">
+          <KeyboardArrowLeft />
+          Back
+        </Button>
+      </span>
       <div className={classes.container}>{flowSteps[activeStep].component}</div>
       <MobileStepper
         className={classes.mobileStepper}
@@ -224,16 +241,6 @@ const FlowStepper = () => {
             {flowSteps[activeStep].buttonText}
           </Button>
         }
-        // backButton={
-        //   <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-        //     {theme.direction === 'rtl' ? (
-        //       <KeyboardArrowRight />
-        //     ) : (
-        //       <KeyboardArrowLeft />
-        //     )}
-        //     Back
-        //   </Button>
-        // }
       />
     </div>
   );

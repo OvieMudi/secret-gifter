@@ -29,6 +29,19 @@ a {
   color: inherit;
 }
 
+.txt-r {
+  text-align: right;
+}
+.txt-l {
+  text-align: left;
+}
+.txt-c {
+  text-align: center;
+}
+.m-auto {
+  margin: auto;
+}
+
 @media only screen and (max-width: 600px) {
   html {
     font-size: 50%;

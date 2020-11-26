@@ -44,7 +44,7 @@ export const AuthContextProvider = ({ children }) => {
       setIsAuthenticated,
       updateUser,
       setIsLoading,
-      setIsError
+      setIsError,
     );
   };
 
@@ -55,7 +55,7 @@ export const AuthContextProvider = ({ children }) => {
       setIsAuthenticated,
       history,
       setIsLoading,
-      setIsError
+      setIsError,
     );
   };
 
@@ -71,6 +71,8 @@ export const AuthContextProvider = ({ children }) => {
         checkExistingEmail,
         handleLogin,
         handleRegister,
+        isLoading,
+        isError,
       }}
     >
       {children}

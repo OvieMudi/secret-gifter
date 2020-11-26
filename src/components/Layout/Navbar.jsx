@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core';
-import Button from '@common/Button';
+// import Button from '@common/Button';
 
 import logo from '@assets/images/secret-gifter.png';
 

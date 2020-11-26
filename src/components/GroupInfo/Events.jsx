@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -8,6 +8,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import Button from '@common/Button';
@@ -90,7 +91,7 @@ const Events = () => {
   });
 
   const classes = useStyles();
-  const { events, addEvent } = useGroups();
+  const { events, addEvent, isLoading } = useGroups();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -112,13 +113,17 @@ const Events = () => {
     addEvent(inputData);
   };
 
-  return (
+  return isLoading ? (
+    <div className="txt-c">
+      <CircularProgress />
+    </div>
+  ) : (
     <div className={classes.eventsContainer}>
       <div style={{ textAlign: 'center' }}>
-        <IconButton onClick={handleClickOpen}>
+        <IconButton color="secondary" onClick={handleClickOpen}>
           <PlusIcon style={{ fontSize: '5rem' }} />
         </IconButton>
-        <Typography>Create event</Typography>
+        <Typography color="secondary">Create event</Typography>
       </div>
       {events.length ? (
         events.map((event) => (

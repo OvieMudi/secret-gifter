@@ -4,7 +4,7 @@ import { axios } from './index';
 export const checkEmail = async (
   userEmail,
   setEmailExists,
-  setLoading /* setError */
+  setLoading /* setError */,
 ) => {
   setLoading(true);
   try {
@@ -21,7 +21,6 @@ export const checkEmail = async (
   } catch (error) {
     setEmailExists({ status: false, name: '' });
     setLoading(false);
-    console.log('error', error);
   }
 };
 
@@ -31,7 +30,7 @@ export const login = async (
   setIsAuthenticated,
   updateUser,
   setLoading,
-  setIsError
+  setIsError,
 ) => {
   setLoading(true);
   try {
@@ -48,14 +47,12 @@ export const login = async (
       updateUser(user);
       setIsAuthenticated(true);
       history.push(routes.groups);
-      console.log({ status }, { token });
     }
     setLoading(false);
   } catch (error) {
     localStorage.removeItem('token');
     setLoading(false);
     setIsError(error);
-    console.log('error', error);
   }
 };
 
@@ -65,7 +62,7 @@ export const register = async (
   setIsAuthenticated,
   history,
   setLoading,
-  setIsError
+  setIsError,
 ) => {
   setLoading(true);
   try {
@@ -77,20 +74,18 @@ export const register = async (
     });
     const {
       status,
-      data: { group, user, token },
+      data: { user, token },
     } = response.data;
     if (status) {
       localStorage.setItem('token', token);
       updateUser(user);
       setIsAuthenticated(true);
       history.push(routes.groups);
-      console.log({ group }, { user });
     }
     setLoading(false);
   } catch (error) {
     localStorage.removeItem('token');
     setLoading(false);
     setIsError(error);
-    console.log('error', error);
   }
 };

@@ -13,7 +13,27 @@ export const getAdminGroups = async (setGroups, setLoading, setIsError) => {
   } catch (error) {
     setLoading(false);
     setIsError(true);
-    console.log('error', error);
+  }
+};
+
+export const getGroupInfoApi = async (
+  groupId,
+  setGroup,
+  setLoading,
+  setIsError,
+) => {
+  setLoading(true);
+  try {
+    const response = await axios.get(`/groups/${groupId}`);
+    const { status, data } = response.data;
+
+    if (status) {
+      setGroup(data);
+      setLoading(false);
+    }
+  } catch (error) {
+    setLoading(false);
+    setIsError(true);
   }
 };
 
@@ -29,14 +49,13 @@ export const addGroup = async (groupData, setIsLoading, setIsError) => {
   } catch (error) {
     setIsLoading(false);
     setIsError(true);
-    console.log('error', error);
   }
 };
 
 export const addParticipantsApi = async (
   paticipantsData,
   setIsLoading,
-  setIsError
+  setIsError,
 ) => {
   setIsLoading(true);
   try {
@@ -50,7 +69,6 @@ export const addParticipantsApi = async (
   } catch (error) {
     setIsLoading(false);
     setIsError(true);
-    console.log('error', error);
   }
 };
 
@@ -58,7 +76,7 @@ export const getParticipantsApi = async (
   groupId,
   setParticipants,
   setIsLoading,
-  setIsError
+  setIsError,
 ) => {
   try {
     setIsLoading(true);
@@ -72,7 +90,6 @@ export const getParticipantsApi = async (
   } catch (error) {
     setIsLoading(false);
     setIsError(true);
-    console.log('error', error);
   }
 };
 
@@ -80,7 +97,7 @@ export const getEventsApi = async (
   groupId,
   setEvents,
   setIsLoading,
-  setIsError
+  setIsError,
 ) => {
   try {
     const response = await axios.get(`/santas/get-all/${groupId}`);
@@ -93,7 +110,6 @@ export const getEventsApi = async (
   } catch (error) {
     setIsLoading(false);
     setIsError(true);
-    console.log('error', error);
   }
 };
 
@@ -109,7 +125,6 @@ export const addEventApi = async (eventData, setIsLoading, setIsError) => {
   } catch (error) {
     setIsLoading(false);
     setIsError(true);
-    console.log('error', error);
   }
 };
 
@@ -126,6 +141,5 @@ export const discoverApi = async (token, setAnon, setIsLoading, setIsError) => {
   } catch (error) {
     setIsLoading(false);
     setIsError(true);
-    console.log('error', error);
   }
 };

@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import PlusIcon from '@material-ui/icons/AddCircleOutline';
 import CancelIcon from '@material-ui/icons/CancelOutlined';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core';
 import Button from '@common/Button';
 import { useGroups } from '../../context/groupsContext';
@@ -110,7 +111,7 @@ const GroupPage = () => {
   const [showInput, setShowInput] = useState(false);
   const [inputData, setInputData] = useState([]);
   const classes = useStyles();
-  const { participants, addParticipants } = useGroups();
+  const { group, participants, addParticipants, isLoading } = useGroups();
 
   const handleChange = (event, index) => {
     event.persist();
@@ -123,7 +124,7 @@ const GroupPage = () => {
     setShowInput(true);
     const newList = [...inputData];
     const newInput = { email: '', name: '', num: newList.length + 1 };
-    newList.push(newInput);
+    newList.unshift(newInput);
     setInputData(newList);
   };
 
@@ -142,18 +143,33 @@ const GroupPage = () => {
     addParticipants(inputData);
   };
 
+  const participantsList = participants.length ? (
+    participants.map((participant) => (
+      <div key={participant.id} className={classes.participantItem}>
+        <Typography className={classes.partEmail}>
+          {participant.email}
+        </Typography>
+        <Typography className={classes.partName}>{participant.name}</Typography>
+      </div>
+    ))
+  ) : (
+    <div className="m-auto">
+      <Typography>No participants</Typography>
+    </div>
+  );
+
   return (
     <Container>
       <header>
         <Typography variant="h2" className={classes.heading}>
-          Algorism
+          {group?.title || 'Please wait...'}
         </Typography>
       </header>
       <main className={classes.pageWrapper}>
         <Events />
         <div className={classes.buttonWrapper}>
           <div>
-            <IconButton onClick={addParticipantInput}>
+            <IconButton disabled={isLoading} onClick={addParticipantInput}>
               <PlusIcon style={{ fontSize: '10rem' }} />
             </IconButton>
           </div>
@@ -213,19 +229,12 @@ const GroupPage = () => {
           Participants
         </Typography>
         <div className={classes.participantList}>
-          {participants.length ? (
-            participants.map((participant) => (
-              <div key={participant.id} className={classes.participantItem}>
-                <Typography className={classes.partEmail}>
-                  {participant.email}
-                </Typography>
-                <Typography className={classes.partName}>
-                  {participant.name}
-                </Typography>
-              </div>
-            ))
+          {isLoading ? (
+            <div className="m-auto">
+              <CircularProgress />
+            </div>
           ) : (
-            <Typography>No participants</Typography>
+            participantsList
           )}
         </div>
       </main>

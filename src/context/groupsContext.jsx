@@ -8,6 +8,7 @@ import {
   getParticipantsApi,
   getEventsApi,
   addEventApi,
+  getGroupInfoApi,
 } from '../utils/api/groups';
 import routes from '../utils/routes';
 import { useAuth } from './authContext';
@@ -18,6 +19,7 @@ export const useGroups = () => useContext(groupsContext);
 
 export const GroupsProvider = ({ children }) => {
   const [groups, setGroups] = useState(null);
+  const [group, setGroup] = useState(null);
   const [participants, setPartcipants] = useState([]);
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(null);
@@ -32,10 +34,14 @@ export const GroupsProvider = ({ children }) => {
     if (path === routes.groups) {
       getAdminGroups(setGroups, setIsLoading, setIsError);
     }
-    if (params.uuid) {
+    if (path === routes.groupInfo && params.uuid) {
+      getGroupInfoApi(params.uuid, setGroup, setIsLoading, setIsError);
+    }
+    if (path === routes.discover && params.uuid) {
       getParticipantsApi(params.uuid, setPartcipants, setIsLoading, setIsError);
       getEventsApi(params.uuid, setEvents, setIsLoading, setIsError);
     }
+    // if (path )
   }, []);
 
   const createGroup = (inputData) => {
@@ -57,12 +63,14 @@ export const GroupsProvider = ({ children }) => {
     <groupsContext.Provider
       value={{
         groups,
+        group,
         createGroup,
         participants,
         addParticipants,
         events,
         addEvent,
         isLoading,
+        isError,
       }}
     >
       {children}
